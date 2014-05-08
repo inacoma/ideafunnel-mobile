@@ -1,0 +1,184 @@
+/* Empty. Add your own CSS if you like */
+
+.session-overview-heading {
+    font-family: "bariol_bold";
+    font-size: 40px;
+    line-height: 40px;
+    color: #929292;
+    text-align: center;
+}
+
+.button-round {
+    border-radius: 50%;
+    height: 60px;
+    width: 60px;
+    text-align: center;
+    padding-top: 12px;
+}
+
+.button-image {
+    width: 35px;
+    height: 35px;
+}
+
+.button-round-description {
+    margin-top: 8px;
+    font-family: "bariol";
+    color: #929292;
+    font-size: 16px;
+    line-height: 15px;
+    text-align: center;
+}
+
+.session-overview-description {
+    margin-top: 10px;
+    font-family: "bariol_light";
+    font-size: 20px;
+    line-height: 20px;
+    color: #929292;
+    text-align: center;
+}
+
+.sidebar-dark {
+    background-color: #444444;
+}
+
+.grey-text {
+    color: #DBDBDB;
+}
+
+.more-padded {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.modal-content {
+    padding: 20px;
+}
+
+.centered {
+    text-align: center;
+}
+
+.button-no-border {
+    border-style: none !important;
+}
+
+.button-white-bg {
+    background-color: #ffffff !important;
+}
+
+.large-margin-top {
+    margin-top: 30px;
+}
+
+.large-margin-top {
+    margin-top: 30px;
+}
+
+.medium-margin-top {
+    margin-top: 20px;
+}
+
+.small-margin-bottom {
+    margin-bottom: 10px;
+}
+
+.small-margin-top {
+    margin-top: 10px;
+}
+
+.small-margin-right {
+    margin-right: 10px;
+}
+
+.if-card {
+    position: relative;
+    z-index: 400;
+    background-color: #ffffff;
+    border: 1px solid rgba(0, 0, 0, .15);
+    border-radius: 1px;
+    margin-bottom: 20px;
+    padding: 20px;
+    -webkit-box-shadow: 1px 1px 1px rgba(0,0,0,0.08);
+    box-shadow:  1px 1px 1px rgba(0,0,0,0.08);
+}
+
+.hand-demo {
+    position: fixed;
+    top: 150px;
+    right: 0px;
+    z-index: 99999;
+    -webkit-transition: all 1s ease-in-out;
+    -moz-transition: all 1s ease-in-out;
+    -o-transition: all 1s ease-in-out;
+    -ms-transition: all 1s ease-in-out;
+    transition: all 1s ease-in-out;
+}
+
+.hand-demo-move {
+    top: -20px;
+}
+
+.hand-img {
+    width: 50%;
+}
+
+.if-card-centered {
+    margin-top: -10px;
+    width: 90%;
+    height: 500px;
+    font-size: 50px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+}
+
+.if-session-card {
+    padding: 30px;
+    text-align: left;
+    font-size: 36px;
+    font-family: "bariol_light";
+    border-radius: 5px;
+}
+
+textarea {
+    font-family: "bariol";
+    font-size: 18px;
+}
+
+.button-badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border-color: #F0B840;
+    border-style: solid;
+    border-width: 1px;
+    background-color: #ffffff;
+    text-align: center;
+    font-family: bariol_bold;
+    font-size: 10px;
+    padding: 0px;
+    line-height: 10px;
+    padding-top: 10px;
+}
+
+@media screen and (max-width: 750px) {
+    .if-card-centered {
+        margin-top: -15px;
+        width: 95%;
+        height: 320px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .if-session-card {
+        padding: 15px;
+        font-size: 15px;
+        max-height: 190px !important;
+    }
+}

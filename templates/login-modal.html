@@ -1,0 +1,52 @@
+<div class="modal">
+    <ion-header-bar class="bar-energized">
+        <h1 class="title">Get Started</h1>
+    </ion-header-bar>
+    <ion-content padding="true">
+        <div class="modal-content">
+            <div class="small-margin-top centered">
+                <img src="img/ideafunnel_big.png" style="width: 200px;"/>
+            </div>
+
+            <div ng-show="loginPage == 'start'">
+                <p class="small-margin-top">Welcome to Idea Funnel. Before you can start generating ideas, we need to know a bit more about you.</p>
+
+                <div class="medium-margin-top">
+                    <button class="button button-energized button-no-border button-full" ng-click="loginPage = 'guest'">Join as Guest</button>
+                </div>
+
+                <div class="small-margin-top">
+                    <button class="button button-positive button-no-border button-full">Login with Facebook</button>
+                </div>
+            </div>
+
+            <div ng-show="loginPage =='guest'">
+                <div class="list">
+
+                    <div class="list list-inset">
+                        <div class="assertive small-margin-bottom" ng-show="createGuestError">
+                            An error occurred creating your guest account
+                        </div>
+                        <label class="item item-input">
+                            <input type="text" placeholder="Your name or nickname" ng-model="newGuest.name">
+                        </label>
+
+                        <div class="medium-margin-top">
+                            <button class="button button-energized button-no-border button-full" ng-click="createGuest()">Join as Guest</button>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+            </div>
+
+
+
+
+        </div>
+
+    </ion-content>
+</div>

@@ -1,0 +1,43 @@
+<ion-view title="{{board.title}}">
+
+  <ion-content class="has-header" has-bouncing="false" padding="true">
+      <div class="more-padded medium-margin-top">
+          <div class="session-overview-heading"><span ng-if="board.title">{{board.title}}</span><span ng-if="!board.title">Session Title</span></div>
+          <div class="session-overview-description"><span ng-if="board.description">{{board.description}}</span><span ng-if="!board.description">Session description to go here which explains the purpose of the board</span></div>
+
+
+          <div class="row large-margin-top">
+              <div class="col centered">
+                <button class="button button-outline button-energized button-round" ng-click="goToGenerate()">
+                    <img src="img/bulb.png" class="button-image"/>
+                </button>
+                <div class="button-round-description">Generate<br/>Ideas</div>
+              </div>
+              <div class="col centered">
+                  <button class="button button-outline button-energized button-round">
+                      <img src="img/user.png" class="button-image"/>
+                      <div class="button-badge"><span ng-if="board.userIdeaCount">{{board.userIdeaCount}}</span><span ng-if="!board.userIdeaCount">0</span></div>
+                  </button>
+                  <div class="button-round-description">My<br/>Ideas</div>
+              </div>
+              <div class="col centered">
+                  <button class="button button-outline button-energized button-round">
+                      <img src="img/thumb.png" class="button-image"/>
+                  </button>
+                  <div class="button-round-description">Like<br/>Ideas</div>
+              </div>
+
+          </div>
+
+
+      </div>
+
+
+
+  </ion-content>
+
+
+
+
+</ion-view>
+

@@ -1,0 +1,38 @@
+<ion-view title="Welcome">
+  <ion-nav-buttons side="left">
+    <button menu-toggle="left"class="button button-icon icon ion-navicon"></button>
+  </ion-nav-buttons>
+  <ion-content class="has-header" has-bouncing="false" padding="true">
+
+    <div class="centered">
+
+        <div class="medium-margin-top">
+            <img src="img/ideafunnel_big.png" style="width: 200px;"/>
+        </div>
+
+        <div class="medium-margin-top grey-text more-padded">
+            Set your ideas free with Idea Funnel. To get started, type the name of the session you are joining below or scan a QR code.
+        </div>
+
+        <div class="medium-margin-top">
+            <form ng-submit="joinSession()">
+                <div class="list list-inset">
+                    <label class="item item-input">
+                        <input type="text" placeholder="Enter session code" ng-model="board.boardName" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                    </label>
+                </div>
+            </form>
+        </div>
+
+        <div class="large-margin-top">
+            <button class="button button-energized button-outline button-white-bg small-margin-right" ng-click="joinSession()" ng-if="board.boardName != '' && !loadingQrScreen">Join Session</button>
+            <button class="button button-energized button-outline button-white-bg" ng-click="scanForBarcode()"><i ng-show="loadingQrScreen" class="ion-loading-c"></i> Scan QR Code</button>
+
+
+        </div>
+
+
+    </div>
+
+  </ion-content>
+</ion-view>
