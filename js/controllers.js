@@ -1,7 +1,7 @@
 angular.module('starter.controllers', [])
 
 .controller('AppCtrl', function($scope, $rootScope) {
-    $rootScope.URL_PREFIX = "http://localhost:3000/"
+    $rootScope.URL_PREFIX = "http://ideafunnel.io/"
     $rootScope.forceLogin = false;
 
     $scope.forceLogin = function() {
@@ -252,11 +252,70 @@ angular.module('starter.controllers', [])
 })
 
 .controller('SessionOverviewController', function($scope, $rootScope, $stateParams, $ionicGesture, $ionicBackdrop, $timeout, $http, $ionicLoading) {
+        $scope.boardName = $stateParams.boardName;
+        $scope.board = $rootScope.board;
+
+        $scope.goToGenerate = function() {
+            window.location.href = '#/app/generate/' + $scope.board._id;
+        }
+
+        $scope.goToMyIdeas = function() {
+            window.location.href = '#/app/my-ideas/' + $scope.board._id;
+        }
+
+})
+
+.controller('MyIdeasController', function($scope, $rootScope, $stateParams, $ionicGesture, $ionicBackdrop, $timeout, $http, $ionicLoading) {
     $scope.boardName = $stateParams.boardName;
     $scope.board = $rootScope.board;
 
-    $scope.goToGenerate = function() {
-        window.location.href = '#/app/generate/' + $scope.board._id;
+    var formData = {};
+
+    if ($rootScope.credentials.guest) {
+        formData.guestId = $rootScope.credentials.guest.id;
     }
+
+    $scope.myIdeas = [];
+
+    $scope.loadMyIdeas = function() {
+        $ionicLoading.show({
+            template: '<i class="ion-loading-c"></i> Loading your ideas'
+        });
+
+        $http.post($rootScope.URL_PREFIX + "api/idea-boards/view/" + $scope.board._id + "/user-ideas", formData)
+            .success(function(data, status) {
+                $ionicLoading.hide();
+
+
+                if (data.status != "ok") {
+                    $ionicLoading.show({
+                        template: '<i class="ion-close-circled"></i> Error ' + data.error
+                    });
+
+                    setTimeout(function() {
+                        $ionicLoading.hide();
+                    }, 1500);
+                } else {
+                    $scope.myIdeas = data.data;
+
+
+                }
+
+            })
+            .error(function(data, status) {
+                $ionicLoading.hide();
+
+                $ionicLoading.show({
+                    template: '<i class="ion-close-circled"></i> There was an error sending your last idea'
+                });
+
+                setTimeout(function() {
+                    $ionicLoading.hide();
+                }, 1500);
+            });
+
+    }
+
+    $scope.loadMyIdeas();
 
 })

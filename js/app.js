@@ -60,6 +60,15 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         }
       }
     })
+    .state('app.myideas', {
+      url: "/my-ideas/:boardName",
+      views: {
+          'menuContent' :{
+              templateUrl: "templates/my-ideas.html",
+              controller: 'MyIdeasController'
+          }
+      }
+    })
     .state('app.sessionoverview', {
       url: "/session-overview/:boardName",
       views: {

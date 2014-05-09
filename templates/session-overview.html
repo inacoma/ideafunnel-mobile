@@ -14,7 +14,7 @@
                 <div class="button-round-description">Generate<br/>Ideas</div>
               </div>
               <div class="col centered">
-                  <button class="button button-outline button-energized button-round">
+                  <button class="button button-outline button-energized button-round" ng-click="goToMyIdeas()">
                       <img src="img/user.png" class="button-image"/>
                       <div class="button-badge"><span ng-if="board.userIdeaCount">{{board.userIdeaCount}}</span><span ng-if="!board.userIdeaCount">0</span></div>
                   </button>

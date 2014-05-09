@@ -68,6 +68,14 @@
     background-color: #ffffff !important;
 }
 
+.extra-large-margin-top {
+    margin-top: 40px;
+}
+
+.extra-large-margin-bottom {
+    margin-bottom: 40px;
+}
+
 .large-margin-top {
     margin-top: 30px;
 }
@@ -146,6 +154,13 @@
 textarea {
     font-family: "bariol";
     font-size: 18px;
+    line-height: 20px;
+}
+
+.if-card-text {
+    font-family: "bariol";
+    font-size: 18px;
+    line-height: 20px;
 }
 
 .button-badge {
@@ -156,6 +171,7 @@ textarea {
     height: 32px;
     border-radius: 50%;
     border-color: #F0B840;
+    color: #F0B840 !important;
     border-style: solid;
     border-width: 1px;
     background-color: #ffffff;
