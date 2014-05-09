@@ -1,0 +1,48 @@
+<ion-view title="Like Ideas">
+
+  <ion-content class="has-header" has-bouncing="false" padding="true">
+
+    <div class="centered large-margin-top" ng-show="unlikedIdeas == 0">
+        <img src="img/coolface.png" style="width: 206px; height: 206px;"/>
+        <div class="session-overview-heading small-margin-top">No more<br/> ideas to like</div>
+    </div>
+
+    <div class="centered" id="swipeArea" style="margin-top: 30px;" ng-show="unlikedIdeas.length >0">
+
+        <div class="large-margin-top grey-text">
+
+            <div class="if-card if-card-centered if-session-card" ng-class="{'rotateOutUpLeft animated': swipingCardLeft, 'rotateOutUpRight animated': swipingCardRight}">
+                <div class="if-card-text">
+                    {{unlikedIdeas[0].description}}
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+      <div class="medium-margin-top" ng-show="unlikedIdeas.length >0">
+          <div class="row">
+              <div class="col">
+                  <img ng-hide="swipingCardLeft" src="img/swipe_left.png" style="height: 60px;"/>
+                  <img ng-show="swipingCardLeft" src="img/swipe_left_on.png" style="height: 60px;"/>
+              </div>
+              <div class="col centered">
+                    <div ng-if="unlikedIdeas.length > 0" class="session-overview-heading">{{unlikedIdeas.length}} left</div>
+              </div>
+              <div class="col" style="text-align: right;">
+                  <img ng-hide="swipingCardRight" src="img/swipe_right.png" style="height: 60px;"/>
+                  <img ng-show="swipingCardRight" src="img/swipe_right_on.png" style="height: 60px;"/>
+              </div>
+
+          </div>
+
+      </div>
+
+  </ion-content>
+
+
+
+
+</ion-view>
+

@@ -2,12 +2,14 @@
 
   <ion-content class="has-header" has-bouncing="false" padding="true">
 
-    <div class="centered">
+    <div class="centered" id="swipeArea">
 
-        <div class="medium-margin-top grey-text" id="swipeArea">
+        <div class="medium-margin-top grey-text">
 
             <div class="if-card if-card-centered if-session-card" ng-class="{'slideOutUp animated': swipingCard}">
-                <textarea ng-model="newCard.content" class="full-screen-card-heading" ng-model="cardContent" placeholder="Click here to enter an idea and then swipe it up to submit it" style="border-style: none; width: 95%; overflow: hidden; height: 90%; outline-style: none !important;"></textarea>
+                <form ng-submit="startSendingCard()">
+                    <textarea id="entryCard" ng-model="newCard.content" ng-keydown="entryCardKeyPress($event)" class="full-screen-card-heading" ng-model="cardContent" placeholder="Click here to enter an idea and then swipe it up to submit it" style="border-style: none; width: 95%; overflow: hidden; height: 90%; outline-style: none !important;"></textarea>
+                </form>
             </div>
 
         </div>
@@ -23,10 +25,6 @@
 
     </div>
 
-  <!--<div style="position:fixed; top: 0px; left: 0px; width: 100%; height: 100%; background-color: rgba(0,0,0,0.4); color: #ffffff; z-index: 99999999;">
-
-  </div>
-  -->
   </ion-content>
 
 

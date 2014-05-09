@@ -12,6 +12,12 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
+
+    if(window.cordova){
+        cordova.plugins && cordova.plugins.Keyboard && cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+    }
+
+
   });
 })
 
@@ -58,6 +64,15 @@ angular.module('starter', ['ionic', 'starter.controllers'])
           templateUrl: "templates/board-generate.html",
           controller: 'BoardGenerateController'
         }
+      }
+    })
+    .state('app.boardlike', {
+      url: "/like/:boardName",
+      views: {
+          'menuContent' :{
+              templateUrl: "templates/board-like.html",
+              controller: 'LikeController'
+          }
       }
     })
     .state('app.myideas', {

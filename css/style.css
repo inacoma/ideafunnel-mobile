@@ -161,6 +161,7 @@ textarea {
     font-family: "bariol";
     font-size: 18px;
     line-height: 20px;
+    color: #929292;
 }
 
 .button-badge {
@@ -181,6 +182,18 @@ textarea {
     padding: 0px;
     line-height: 10px;
     padding-top: 10px;
+}
+
+.small-rotate-right {
+    transform:rotate(0.5deg);
+    -ms-transform:rotate(0.5deg);
+    -webkit-transform:rotate(0.5deg);
+}
+
+.small-rotate-left {
+    transform:rotate(-0.5deg);
+    -ms-transform:rotate(-0.5deg);
+    -webkit-transform:rotate(-0.5deg);
 }
 
 @media screen and (max-width: 750px) {

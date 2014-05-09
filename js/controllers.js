@@ -1,8 +1,11 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $rootScope) {
+.controller('AppCtrl', function($scope, $rootScope, $ionicSideMenuDelegate) {
     $rootScope.URL_PREFIX = "http://ideafunnel.io/"
     $rootScope.forceLogin = false;
+
+    $ionicSideMenuDelegate.canDragContent(false);
+
 
     $scope.forceLogin = function() {
         $rootScope.forceLogin = true;
@@ -16,7 +19,6 @@ angular.module('starter.controllers', [])
     $scope.loginPage = 'start';
     $scope.newGuest = {name: ""};
     $scope.createGuestError = false;
-
 
     //Cleanup the modal when we're done with it!
     $scope.$on('$destroy', function() {
@@ -214,8 +216,19 @@ angular.module('starter.controllers', [])
             });
     }
 
-    $ionicGesture.on("swipeup", function(e) {
+    $scope.entryCardKeyPress = function(evt) {
+        if (evt.keyCode == 13) {
+            evt.stopPropagation();
+            evt.preventDefault();
+            $scope.startSendingCard();
+        }
+
+    }
+
+    $scope.startSendingCard = function() {
         if (!$scope.swipingCard && $scope.newCard.content && $scope.newCard.content.trim() != "") {
+            //document.getElementById("entryCard").blur();
+
             $scope.swipingCard = true;
             $scope.$apply();
 
@@ -225,10 +238,16 @@ angular.module('starter.controllers', [])
                 $scope.swipingCard = false;
                 $scope.newCard.content = "";
                 $scope.$apply();
+                //document.getElementById("entryCard").focus();
             }, 600);
         }
-    }, swipeArea);
+    }
 
+    $ionicGesture.on("swipeup", $scope.startSendingCard, swipeArea);
+
+    $scope.$on('$destroy', function() {
+        $ionicGesture.off("swipeup", $scope.startSendingCard, swipeArea);
+    });
 
     // Do our initial hand demo
     $timeout(function() {
@@ -251,6 +270,150 @@ angular.module('starter.controllers', [])
 
 })
 
+.controller('LikeController', function($scope, $rootScope, $stateParams, $ionicGesture, $ionicBackdrop, $timeout, $http, $ionicLoading) {
+    $scope.boardName = $stateParams.boardName;
+    $scope.board = $rootScope.board;
+
+    $scope.loadUnliked = function() {
+        $scope.unlikedIdeas = null;
+
+        $ionicLoading.show({
+            template: '<i class="ion-loading-c"></i> Loading latest ideas'
+        });
+
+        var formData = {};
+
+        if ($rootScope.credentials.guest) {
+            formData.guestId = $rootScope.credentials.guest.id;
+        }
+
+        $http.post($rootScope.URL_PREFIX + "api/idea-boards/" + $scope.board._id + "/unliked", formData)
+            .success(function(data, status) {
+                $ionicLoading.hide();
+
+
+                if (data.status != "ok") {
+                    $ionicLoading.show({
+                        template: '<i class="ion-close-circled"></i> Error ' + data.error
+                    });
+
+                    setTimeout(function() {
+                        $ionicLoading.hide();
+                    }, 1500);
+                } else {
+                    $scope.unlikedIdeas = data.data;
+
+                }
+
+            })
+            .error(function(data, status) {
+                $ionicLoading.hide();
+
+                $ionicLoading.show({
+                    template: '<i class="ion-close-circled"></i> There was an error loading unliked ideas'
+                });
+
+                setTimeout(function() {
+                    $ionicLoading.hide();
+                }, 1500);
+            });
+
+    }
+
+    if ($rootScope.credentials) {
+        $scope.loadUnliked();
+    }
+
+    // Gesture stuff
+    var swipeArea = angular.element(document.querySelector('#swipeArea'));
+
+    $scope.swipingCardLeft = false;
+    $scope.swipingCardRight = false;
+
+    $scope.applySwipe = function(direction) {
+        ///api/idea-boards/:boardId/:ideaId/7
+
+        if ($scope.unlikedIdeas) {
+
+            var formData = {};
+
+            if ($rootScope.credentials.guest) {
+                formData.guestId = $rootScope.credentials.guest.id;
+            }
+
+            $http.post($rootScope.URL_PREFIX + "api/idea-boards/" + $scope.board._id + "/" + $scope.unlikedIdeas[0]._id + "/" + direction + "/", formData)
+                .success(function(data, status) {
+                    $ionicLoading.hide();
+
+                    if (data.status != "ok") {
+                        $ionicLoading.show({
+                            template: '<i class="ion-close-circled"></i> Error saving your ' + direction
+                        });
+
+                        setTimeout(function() {
+                            $ionicLoading.hide();
+                        }, 1500);
+                    }
+
+                })
+                .error(function(data, status) {
+                    $ionicLoading.hide();
+
+                    $ionicLoading.show({
+                        template: '<i class="ion-close-circled"></i> Error saving your ' + direction
+                    });
+
+                    setTimeout(function() {
+                        $ionicLoading.hide();
+                    }, 1500);
+                });
+
+            $scope.unlikedIdeas.splice(0, 1);
+        }
+    }
+
+    $scope.swipeLeft = function() {
+        if (!$scope.swipingCardLeft) {
+            $scope.swipingCardLeft = true;
+            $scope.$apply();
+
+            $timeout(function() {
+                $scope.swipingCardLeft = false;
+                $scope.applySwipe("dislike");
+                $scope.$apply();
+            }, 800);
+        }
+    }
+
+    $scope.swipeRight = function() {
+        if (!$scope.swipingCardRight) {
+            $scope.swipingCardRight = true;
+            $scope.$apply();
+
+
+            $timeout(function() {
+                $scope.swipingCardRight = false;
+                $scope.applySwipe("like");
+                $scope.$apply();
+            }, 800);
+        }
+    }
+
+
+    $ionicGesture.on("swipeleft", $scope.swipeLeft, swipeArea);
+    $ionicGesture.on("swiperight", $scope.swipeRight, swipeArea);
+
+    $scope.$on('$destroy', function() {
+        $ionicGesture.off("swipeleft", $scope.swipeLeft, swipeArea);
+        $ionicGesture.off("swiperight", $scope.swipeRight, swipeArea);
+    });
+
+
+
+})
+
+
+
 .controller('SessionOverviewController', function($scope, $rootScope, $stateParams, $ionicGesture, $ionicBackdrop, $timeout, $http, $ionicLoading) {
         $scope.boardName = $stateParams.boardName;
         $scope.board = $rootScope.board;
@@ -261,6 +424,10 @@ angular.module('starter.controllers', [])
 
         $scope.goToMyIdeas = function() {
             window.location.href = '#/app/my-ideas/' + $scope.board._id;
+        }
+
+        $scope.goToLike = function() {
+            window.location.href = '#/app/like/' + $scope.board._id;
         }
 
 })
@@ -275,7 +442,7 @@ angular.module('starter.controllers', [])
         formData.guestId = $rootScope.credentials.guest.id;
     }
 
-    $scope.myIdeas = [];
+    $scope.myIdeas = null;
 
     $scope.loadMyIdeas = function() {
         $ionicLoading.show({
