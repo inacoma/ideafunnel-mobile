@@ -1,0 +1,29 @@
+<ion-view title="My Ideas">
+
+  <ion-content class="has-header" has-bouncing="true" padding="true">
+      <div class="more-padded">
+
+          <div class="large-margin-top" ng-if="myIdeas.length > 0">
+              <div ng-repeat="idea in myIdeas" class="extra-large-margin-bottom">
+                  <div class="if-card if-card-centered if-session-card">
+                      <div class="if-card-text">{{idea.description}}</div>
+                  </div>
+              </div>
+          </div>
+
+          <div class="large-margin-top centered" ng-if="myIdeas && myIdeas.length == 0">
+              <img src="img/sadface.png" style="width: 206px; height: 206px"/>
+              <div class="medium-margin-top session-overview-heading">
+                  No ideas yet
+              </div>
+          </div>
+
+      </div>
+
+  </ion-content>
+
+
+
+
+</ion-view>
+

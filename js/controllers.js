@@ -158,13 +158,16 @@ angular.module('starter.controllers', [])
     }
 })
 
-.controller('BoardGenerateController', function($scope, $rootScope, $stateParams, $ionicGesture, $ionicBackdrop, $timeout, $http, $ionicLoading) {
+.controller('BoardGenerateController', function($scope, $rootScope, $stateParams, $ionicGesture, $ionicBackdrop, $timeout, $http, $ionicLoading, cordovaVibrationService) {
     $scope.boardName = $stateParams.boardName;
     $scope.board = $rootScope.board;
     $scope.swipingCard = false;
     $scope.newCard = {content: ""};
     $scope.showDemo = false;
 
+    var cardElem = document.getElementById("cardHolder");
+    var textAreaElem = document.getElementById("entryCard");
+    var Y_LIMIT = -(cardElem.getBoundingClientRect().height / 2);
     var handMoveStopTop = 10;
     var swipeArea = angular.element(document.querySelector('#swipeArea'));
 
@@ -201,8 +204,6 @@ angular.module('starter.controllers', [])
 
                 }
 
-
-                console.log(data);
             })
             .error(function(data, status) {
                 $ionicLoading.hide();
@@ -229,6 +230,8 @@ angular.module('starter.controllers', [])
         if (!$scope.swipingCard && $scope.newCard.content && $scope.newCard.content.trim() != "") {
             //document.getElementById("entryCard").blur();
 
+            cordovaVibrationService.vibrate(1000);
+
             $scope.swipingCard = true;
             $scope.$apply();
 
@@ -239,11 +242,112 @@ angular.module('starter.controllers', [])
                 $scope.newCard.content = "";
                 $scope.$apply();
                 //document.getElementById("entryCard").focus();
-            }, 600);
+            }, 100);
         }
     }
 
-    $ionicGesture.on("swipeup", $scope.startSendingCard, swipeArea);
+    //$ionicGesture.on("swipeup", $scope.startSendingCard, swipeArea);
+
+
+
+    $scope.returnCard = function() {
+        cardElem.style.webkitTransform = "translate3d(0px, " + ($scope.originalTop - 60) + "px, 0)";
+        cardElem.style.webkitTransition = '-webkit-transform ' + 0.5 + 's cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+    }
+
+    $scope.transformOriginRight = function() {
+        cardElem.style["webkitTransformOrigin"] = 'right center';
+        $scope.rotationDirection = -1;
+    }
+
+    $scope.transformOriginLeft = function() {
+        cardElem.style["webkitTransformOrigin"] = 'left center';
+        $scope.rotationDirection = 1;
+    }
+
+    $scope.cardDragStart = function(evt) {
+
+
+        $scope.yDistanceMoved = 0;
+        var cx = window.innerWidth / 2;
+
+        if (evt.gesture.touches[0].pageX < cx) {
+            $scope.transformOriginRight();
+        } else {
+            $scope.transformOriginLeft();
+        }
+
+
+        var width = cardElem.offsetWidth;
+        var point = window.innerWidth / 2 + $scope.rotationDirection * (width / 2)
+        var distance = Math.abs(point - evt.gesture.touches[0].pageX);
+
+        $scope.touchDistance = distance * 10;
+
+
+
+        textAreaElem.blur();
+        cardElem.style.webkitTransition = "";
+    }
+
+    $scope.cardTopTransform = 0;
+
+
+
+
+    // Figure out the starting top position
+    $scope.originalTop = cardElem.getBoundingClientRect().top;
+    $scope.yDistanceMoved = 0;
+
+    $scope.cardDrag = function(evt) {
+        var distance = evt.gesture.deltaY * 0.6;
+        $scope.yDistanceMoved = distance;
+
+        var o = evt.gesture.deltaY / 2;
+
+        $scope.rotationAngle = Math.atan( o / $scope.touchDistance) * $scope.rotationDirection;
+
+        if (evt.gesture.deltaY > 0) {
+            $scope.rotationAngle = 0;
+        }
+
+        $scope.yDistanceMoved =  $scope.yDistanceMoved + (evt.gesture.deltaY * 0.4);
+
+        cardElem.style.webkitTransform = "translate3d(0px, " + distance + "px, 0) rotate(" + ($scope.rotationAngle || 0) + "rad)";
+
+    }
+
+    $scope.flyOut = function() {
+        $scope.startSendingCard();
+        var rotateTo = ($scope.rotationAngle + (-$scope.rotationDirection * 0.6)) || (Math.random() * 0.4);
+        var duration = $scope.rotationAngle ? 0.5 : 0.9;
+        cardElem.style.webkitTransition = '-webkit-transform ' + duration + 's ease-in-out';
+        cardElem.style.webkitTransform = 'translate3d(' + 0 + 'px,' + (window.innerHeight * -1.5) + 'px, 0) rotate(' + rotateTo + 'rad)';
+
+
+        $timeout(function() {
+            cardElem.style.webkitTransition = "";
+            cardElem.style.webkitTransform = "";
+
+        }, 500);
+    }
+
+    $scope.cardDragEnd = function(evt) {
+        if ($scope.yDistanceMoved < Y_LIMIT &&  $scope.newCard.content && $scope.newCard.content.trim() != "") {
+            $scope.flyOut();
+        } else {
+            $scope.returnCard();
+        }
+
+
+
+    }
+
+    $ionicGesture.on("dragstart", $scope.cardDragStart, swipeArea);
+    $ionicGesture.on("dragend", $scope.cardDragEnd, swipeArea);
+    $ionicGesture.on("drag", $scope.cardDrag, swipeArea);
+
+
 
     $scope.$on('$destroy', function() {
         $ionicGesture.off("swipeup", $scope.startSendingCard, swipeArea);

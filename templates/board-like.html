@@ -19,25 +19,28 @@
 
         </div>
 
+
+        <div class="medium-margin-top" ng-show="unlikedIdeas.length >0">
+            <div class="row">
+                <div class="col">
+                    <img ng-hide="swipingCardLeft" src="img/swipe_left.png" style="height: 60px;"/>
+                    <img ng-show="swipingCardLeft" src="img/swipe_left_on.png" style="height: 60px;"/>
+                </div>
+                <div class="col centered">
+                    <div ng-if="unlikedIdeas.length > 0" class="session-overview-heading">{{unlikedIdeas.length}} left</div>
+                </div>
+                <div class="col" style="text-align: right;">
+                    <img ng-hide="swipingCardRight" src="img/swipe_right.png" style="height: 60px;"/>
+                    <img ng-show="swipingCardRight" src="img/swipe_right_on.png" style="height: 60px;"/>
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
 
-      <div class="medium-margin-top" ng-show="unlikedIdeas.length >0">
-          <div class="row">
-              <div class="col">
-                  <img ng-hide="swipingCardLeft" src="img/swipe_left.png" style="height: 60px;"/>
-                  <img ng-show="swipingCardLeft" src="img/swipe_left_on.png" style="height: 60px;"/>
-              </div>
-              <div class="col centered">
-                    <div ng-if="unlikedIdeas.length > 0" class="session-overview-heading">{{unlikedIdeas.length}} left</div>
-              </div>
-              <div class="col" style="text-align: right;">
-                  <img ng-hide="swipingCardRight" src="img/swipe_right.png" style="height: 60px;"/>
-                  <img ng-show="swipingCardRight" src="img/swipe_right_on.png" style="height: 60px;"/>
-              </div>
 
-          </div>
-
-      </div>
 
   </ion-content>
 

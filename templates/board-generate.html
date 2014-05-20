@@ -6,9 +6,9 @@
 
         <div class="medium-margin-top grey-text">
 
-            <div class="if-card if-card-centered if-session-card" ng-class="{'slideOutUp animated': swipingCard}">
+            <div id="cardHolder" class="if-card if-card-centered if-session-card if-generate-card">
                 <form ng-submit="startSendingCard()">
-                    <textarea id="entryCard" ng-model="newCard.content" ng-keydown="entryCardKeyPress($event)" class="full-screen-card-heading" ng-model="cardContent" placeholder="Click here to enter an idea and then swipe it up to submit it" style="border-style: none; width: 95%; overflow: hidden; height: 90%; outline-style: none !important;"></textarea>
+                    <textarea id="entryCard" ng-model="newCard.content" ng-keydown="entryCardKeyPress($event)" class="full-screen-card-heading" ng-model="cardContent" placeholder="Click here to enter an idea and then swipe it up to submit it" style="border-style: none; width: 95%; overflow: hidden; height: 90%; min-height: 150px; outline-style: none !important; cursor: pointer !important;"></textarea>
                 </form>
             </div>
 
